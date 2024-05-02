@@ -1,6 +1,6 @@
 from src.helper import load_pdf, text_split, download_hugging_face_embeddings
 from langchain_pinecone import PineconeVectorStore
-from dotenv import load_dotenv
+from dotenv.main import load_dotenv
 import os
 
 load_dotenv()
