@@ -20,7 +20,8 @@ client = PineconeVectorStore(index_name=index_name,embedding=embeddings, pinecon
 
 docsearch=PineconeVectorStore.from_existing_index(index_name, embeddings)
 
-PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "question"]) #prompt_template from src/prompt.py
+#prompt_template from src/prompt.py
+PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "question"]) 
 
 chain_type_kwargs={"prompt": PROMPT}
 
