@@ -36,12 +36,20 @@ qa=RetrievalQA.from_chain_type(
     return_source_documents=True, 
     chain_type_kwargs=chain_type_kwargs)
 
+
 @app.route("/")
 def index():
+    """
+    Route decorator for the root URL ("/") that defines a function named "index".
+    This function returns the rendered template "chat.html".
+    """
     return render_template('chat.html')
 
 @app.route("/get", methods=["GET", "POST"])
 def chat():
+    """
+    A function that handles the chat functionality based on user input, performs a query, and returns the response.
+    """
     msg = request.form["msg"]
     input = msg
     print(input)
