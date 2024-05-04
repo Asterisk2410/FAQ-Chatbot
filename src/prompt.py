@@ -11,3 +11,7 @@ Helpful Answer: Please contact our helpline number 0330 173 8200 for further que
 
 If the question is not related to the content of medicine or health related, respond: "I'm sorry, that question is not within the scope of my knowledge."
 """
+
+
+# the above prompt is not fixed it does not return the desired answer to the questions 
+# but it does flush out the answers to all the undesired questions
