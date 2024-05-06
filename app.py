@@ -25,7 +25,7 @@ PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "que
 
 chain_type_kwargs={"prompt": PROMPT}
 
-llm=ctransformers.CTransformers(model=r"model\llama-2-7b-chat.ggmlv3.q4_0.bin",
+llm=ctransformers.CTransformers(model=r"model/llama-2-7b-chat.ggmlv3.q4_0.bin",
                   model_type="llama",
                   config={'max_new_tokens':512,
                           'temperature':0})
