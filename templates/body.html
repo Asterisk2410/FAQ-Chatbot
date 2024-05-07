@@ -1,0 +1,61 @@
+<!-- Copyright (c) 2020 8th Wall, Inc. -->
+<!-- body.html is optional; elements will be added to your html body after app.js is loaded. -->
+
+<a-scene
+  xrextras-gesture-detector
+  landing-page
+  xrextras-loading
+  xrextras-runtime-error
+  renderer="colorManagement:true"
+  gltf-model="dracoDecoderPath: https://cdn.8thwall.com/web/aframe/draco-decoder/"
+  xrweb>
+  <!-- We can define assets here to be loaded when A-Frame initializes -->
+  <a-assets>
+    <a-asset-item id="animatedModel" src="./assets/Maya_1.glb"></a-asset-item>
+  </a-assets>
+
+  <a-camera
+    id="camera"
+    position="0 8 8"
+    raycaster="objects: .cantap"
+    cursor="
+      fuse: false;
+      rayOrigin: mouse;">
+  </a-camera>
+
+  <a-entity
+    light="type: directional;
+         intensity: 0.8;
+         castShadow: true;
+         shadowMapHeight:2048;
+         shadowMapWidth:2048;
+         shadowCameraTop: 10;
+         target: #model;"
+    position="1 4.3 2.5"
+    xrextras-attach="target: model; offset: 1 15 3;"
+    shadow>
+  </a-entity>
+
+  <a-light type="ambient" intensity="0.5"></a-light>
+
+  <a-entity
+    id="model"
+    gltf-model="#animatedModel"
+    class="cantap"
+    scale="3 3 3"
+    animation-mixer="clip: Idle 1; loop: indefinite"
+    xrextras-hold-drag
+    xrextras-two-finger-rotate
+    xrextras-pinch-scale
+    shadow>
+  </a-entity>
+
+  <a-plane
+    id="ground"
+    position="0 0 0"
+    rotation="-90 0 0"
+    width="50"
+    height="50"
+    material="shader: shadow"
+    shadow></a-plane>
+</a-scene>

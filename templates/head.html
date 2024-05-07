@@ -1,0 +1,253 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <meta name="8thwall:renderer" content="aframe:1.5.0" />
+    <meta name="8thwall:package" content="@8thwall.xrextras" />
+    <meta name="8thwall:package" content="@8thwall.landing-page" />
+    <!-- Add GIF for sharing -->
+    <meta property="og:image" content="https://i.giphy.com/media/rAi32DNlsWNpItOpDr/giphy.gif" />
+    <title>Speech Synthesis and Recognition</title>
+    <style>
+      #animationControl {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        z-index: 9999;
+      }
+
+      #over {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 9999;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div class="over">
+      <span id="promptText">Tap To Place Model</span>
+      <input type="text" id="textInputSynthesis" placeholder="Enter text" />
+      <button id="speakButtonSynthesis">Speak</button>
+      <select id="voiceSelectSynthesis">
+        <option value="voice1">Voice 1</option>
+        <option value="voice2">Voice 2</option>
+      </select>
+    </div> -->
+
+    <div class="over2">
+      <span id="promptText">Tap To Place Model</span>
+      <input type="text" id="textInputRecognition" placeholder="Enter text" />
+      <button id="speakButtonRecognition">Speak</button>
+      <select id="voiceSelectRecognition">
+        <option value="voice1">Voice 1</option>
+        <option value="voice2">Voice 2</option>
+      </select>
+    </div>
+
+    <!-- here-->
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">		
+            <div class="col-md-8 col-xl-6 chat">
+                <div class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight">
+                            <div class="img_cont">
+                                <!-- <img src="https://i.ibb.co/fSNP7Rz/icons8-chatgpt-512.png" class="rounded-circle user_img"> -->
+                                <img src="https://www.prdistribution.com/spirit/uploads/pressreleases/2019/newsreleases/d83341deb75c4c4f6b113f27b1e42cd8-chatbot-florence-already-helps-thousands-of-patients-to-remember-their-medication.png" class="rounded-circle user_img">
+                                <span class="online_icon"></span>
+                            </div>
+                            <div class="user_info">
+                                <span>Nuffield Health Hostipal FAQ Chatbot</span>
+                                <p>Query buster at your service. Ask me anything!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="messageFormeight" class="card-body msg_card_body">
+                        
+                        
+                    </div>
+                    <div class="card-footer">
+                        <form id="messageArea" class="input-group">
+                            <input type="text" id="text" name="msg" placeholder="Type your message..." autocomplete="off" class="form-control type_msg" required/>
+                            <div class="input-group-append">
+                                <button id="speakButtonSynthesis" class="mic_btn"><i class="fas fa-microphone"></i></button>
+                                <button type="submit" id="send" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#messageArea").on("submit", function(event) {
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const str_time = hour+":"+minute;
+                var rawText = $("#text").val();
+                
+                /* speech connect */
+                
+
+
+                var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">'+ str_time + '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
+                
+                $("#text").val("");
+                $("#messageFormeight").append(userHtml);
+
+                $.ajax({
+                    data: {
+                        msg: rawText,	
+                    },
+                    type: "POST",
+                    url: "/get",
+                }).done(function(data) {
+                    var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://www.prdistribution.com/spirit/uploads/pressreleases/2019/newsreleases/d83341deb75c4c4f6b113f27b1e42cd8-chatbot-florence-already-helps-thousands-of-patients-to-remember-their-medication.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data + '<span class="msg_time">' + str_time + '</span></div></div>';
+                    $("#messageFormeight").append($.parseHTML(botHtml));
+                    $("#textInputSynthesis").val(data);
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+    <!-- here -->
+
+    <div id="animationControl">
+      
+      <select id="voiceSelectSynthesis">
+        <option value="voice1">Voice 1</option>
+        <option value="voice2">Voice 2</option>
+      </select>
+      <input type="text" id="textInputSynthesis" placeholder="Enter text" style="display: none;"/>
+      <button id="speakButtonSynthesis" style="display: none;">Speak</button>
+    </div>
+    <script>
+      // Define a list of voices manually
+      const voices = [
+        { name: 'Voice 1', lang: 'en-US', default: true },
+        { name: 'Voice 2', lang: 'en-GB', default: false },
+        // Add more voices as needed
+      ];
+
+      const visemeMapping = {
+        viseme_DD: 0.0,
+        viseme_kk: 0.1,
+        viseme_CG: 0.2,
+        viseme_SS: 0.3,
+        viseme_nn: 0.4,
+        viseme_RR: 0.5,
+        viseme_aa: 0.6,
+        viseme_E: 0.7,
+        viseme_I: 0.8,
+        viseme_O: 0.9,
+        viseme_U: 1.0,
+      };
+      // Text to Speech///////////////////////////////////////
+      // Function to populate the voice select dropdown for Synthesis
+      function populateVoiceListSynthesis() {
+        const voiceSelectSynthesis = document.getElementById('voiceSelectSynthesis');
+        const selectedIndex =
+          voiceSelectSynthesis.selectedIndex < 0 ? 0 : voiceSelectSynthesis.selectedIndex;
+        voiceSelectSynthesis.innerHTML = '';
+
+        for (let i = 0; i < voices.length; i++) {
+          const option = document.createElement('option');
+          option.textContent = `${voices[i].name} (${voices[i].lang})`;
+
+          if (voices[i].default) {
+            option.textContent += ' -- DEFAULT';
+          }
+
+          option.setAttribute('data-lang', voices[i].lang);
+          option.setAttribute('data-name', voices[i].name);
+          voiceSelectSynthesis.appendChild(option);
+        }
+        voiceSelectSynthesis.selectedIndex = selectedIndex;
+      }
+
+      // Call the function to populate the voice list for Synthesis
+      populateVoiceListSynthesis();
+
+      let synth;
+
+      // Check if speechSynthesis is supported for Synthesis
+      if ('speechSynthesis' in window) {
+        // Assign speechSynthesis to synth variable
+        synth = window.speechSynthesis;
+
+        // Check if onvoiceschanged is supported for Synthesis
+        if ('onvoiceschanged' in synth) {
+          // Call populateVoiceListSynthesis when voices change for Synthesis
+          synth.onvoiceschanged = populateVoiceListSynthesis;
+        }
+
+        // Get the speak button and add event listener for Synthesis
+        const speakButtonSynthesis = document.getElementById('speakButtonSynthesis');
+        speakButtonSynthesis.addEventListener('click', speakSynthesis);
+      } else {
+        console.error('Speech synthesis not supported for Synthesis');
+      }
+
+      function speakSynthesis() {
+        // Get the input text element for Synthesis
+        const textInputSynthesis = document.getElementById('textInputSynthesis');
+      //  const modelEl1 = document.querySelector('#model');
+
+        // Check if synth is speaking for Synthesis
+        if (synth.speaking) {
+          console.error('Speech synthesis is still speaking');
+          return;
+        }
+
+        // Reset lip animation
+       // modelEl1.setAttribute('animation-mixer', 'clip: Idle 1', 'loop: indefinite');
+
+        // Get the selected voice option for Synthesis
+        const voiceSelectSynthesis = document.getElementById('voiceSelectSynthesis');
+        const selectedOption = voiceSelectSynthesis.selectedOptions[0];
+        const selectedVoiceName = selectedOption.getAttribute('data-name');
+
+        // Find the voice object corresponding to the selected name for Synthesis
+        const selectedVoice = voices.find((voice) => voice.name === selectedVoiceName);
+
+        // Create a new SpeechSynthesisUtterance with the input text for Synthesis
+        const utterThis = new SpeechSynthesisUtterance(textInputSynthesis.value);
+
+        // Check if selectedVoice is defined for Synthesis
+        if (selectedVoice) {
+          // Set the selected voice for the utterance for Synthesis
+          utterThis.voice = synth.getVoices().find((voice) => voice.name === selectedVoice.name);
+        } else {
+          console.error('Selected voice not found for Synthesis');
+          return;
+        }
+
+        // Set lip animation to continue indefinitely
+      //  modelEl1.setAttribute('animation-mixer', 'clip: Lip', 'loop: indefinite');
+
+        // Speak the utterance for Synthesis
+        synth.speak(utterThis);
+
+        // Listen for the end of speech and reset the lip animation
+        utterThis.onend = function (event) {
+          // Reset lip animation
+        //  modelEl1.setAttribute('animation-mixer', 'clip: Idle 1', 'loop: indefinite');
+        };
+      }
+
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+.over {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+.over2 {
+    position: fixed;
+    top: 40px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    z-index: 1000;
+}
+.animationControl {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 9999;
+}
+
+
+  
+#textInput,
+#speakButton {
+    display: block;
+    margin-top: 10px;
+}
+
+#textInputSynthesis {
+    display: none;
+}
