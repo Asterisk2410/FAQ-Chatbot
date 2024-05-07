@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 from src.helper import download_hugging_face_embeddings
 from langchain_pinecone.vectorstores import PineconeVectorStore
 from langchain.prompts import PromptTemplate
-from langchain.llms import ctransformers
+from langchain_community.llms import ctransformers
 from langchain.chains.retrieval_qa.base import RetrievalQA
 from dotenv.main import load_dotenv
 from src.prompt import *
@@ -44,7 +44,7 @@ def index():
     Route decorator for the root URL ("/") that defines a function named "index".
     This function returns the rendered template "chat.html".
     """
-    return render_template('chat.html')
+    return render_template('head.html')
 
 @app.route("/get", methods=["GET", "POST"])
 def chat():
