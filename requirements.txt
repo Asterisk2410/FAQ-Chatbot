@@ -6,5 +6,6 @@ flask==3.0.3
 langchain-community==0.0.34
 langchain_pinecone==0.1.0
 pypdf==4.2.0
+llama-cpp-python==0.2.70
 python-dotenv
 -e .
