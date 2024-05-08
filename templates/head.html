@@ -247,7 +247,49 @@
         };
       }
 
-      
+      if (!SpeechRecognition) {
+        console.error("SpeechRecognition is not supported in this browser.");
+        } else {
+        console.log("SpeechRecognition is supported in this browser.");
+        }
+
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var SpeechRecognitionEvent =
+        window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
+      var recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      function startRecording() {
+        recognition.start();
+        console.log('Recording started');
+      }
+
+      function stopRecording() {
+        recognition.stop();
+        console.log('Recording stopped');
+      }
+
+      recognition.onresult = function (event) {
+        var result = event.results[0][0].transcript;
+        document.getElementById('textInputRecognition').value = result;
+        console.log('Result:', result);
+      };
+
+      recognition.onerror = function (event) {
+        console.error('Error occurred in recognition:', event.error);
+      };
+
+      // Function to handle click event on speakButton for Recognition
+      document.getElementById('speakButtonRecognition').addEventListener('click', function () {
+        if (recognition && recognition.running) {
+          stopRecording();
+        } else {
+          startRecording();
+        }
+      });
+
     </script>
   </body>
 </html>
