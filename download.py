@@ -1,5 +1,4 @@
 from huggingface_hub import hf_hub_download
-from llama_cpp import Llama
 
 
 model_name_or_path =  'TheBloke/Llama-2-7B-Chat-GGML'
