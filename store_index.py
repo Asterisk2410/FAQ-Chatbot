@@ -6,12 +6,12 @@ import os
 load_dotenv()
 
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
-dataset = r"C:\Users\Admin\Desktop\Aster\Chatbot-Llama2\data"
+dataset = r"E:\Dev files\FAQ Chatbot\FAQ-Chatbot"
 
 extracted_data = load_pdf(dataset)
 text_chunks = text_split(extracted_data)
 embeddings = download_hugging_face_embeddings()
-index_name = "chat"
+index_name = "drs-chat"
 
 client = PineconeVectorStore(index_name=index_name,embedding=embeddings, pinecone_api_key=PINECONE_API_KEY)
 

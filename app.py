@@ -13,7 +13,7 @@ app = Flask(__name__)
 load_dotenv()
 
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
-index_name = "chat"
+index_name = "drs_db"
 embeddings = download_hugging_face_embeddings()
 
 client = PineconeVectorStore(index_name=index_name,embedding=embeddings, pinecone_api_key=PINECONE_API_KEY)
